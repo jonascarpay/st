@@ -248,6 +248,7 @@ static char *opt_class = NULL;
 static char **opt_cmd  = NULL;
 static char *opt_embed = NULL;
 static char *opt_font  = NULL;
+static char *env_font  = NULL;
 static char *opt_io    = NULL;
 static char *opt_line  = NULL;
 static char *opt_name  = NULL;
@@ -1147,7 +1148,8 @@ xinit(int cols, int rows)
 	if (!FcInit())
 		die("could not init fontconfig.\n");
 
-	usedfont = (opt_font == NULL)? font : opt_font;
+	env_font = getenv("ST_FONT");
+	usedfont = (opt_font == NULL)? (env_font == NULL ? font : env_font) : opt_font;
 	xloadfonts(usedfont, 0);
 
 	/* colors */
